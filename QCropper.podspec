@@ -9,7 +9,7 @@ This project aims to provide an image cropping experience like iOS Photos.app.
   s.homepage         = 'https://github.com/ja-topaz/QCropper'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'JA' => 'ja.kernodle@topazlabs.com' }
-  s.source           = { :git => 'https://github.com/ja-topaz/QCropper', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/ja-topaz/QCropper.git', :tag => s.version.to_s }
   s.swift_version = '5.0'
   s.ios.deployment_target = '11.0'
   s.source_files = 'QCropper/**/*'
