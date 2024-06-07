@@ -13,15 +13,35 @@ class Toolbar: UIView {
         button.autoresizingMask = [.flexibleBottomMargin, .flexibleRightMargin]
         return button
     }()
-
-    lazy var resetButton: UIButton = {
-        let button = self.titleButton("RESET", highlight: true)
+    
+    lazy var upScale: UIButton = {
+        let button = self.titleButton("Upscale image", highlight: true)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         button.isHidden = true
         button.centerX = self.width / 2
         button.autoresizingMask = [.flexibleBottomMargin, .flexibleRightMargin]
+
+        // Set the background color to blue
+        button.backgroundColor = .blue
+
+        // Set rounded corners for a capsule shape
+        button.layer.cornerRadius = button.frame.height / 2
+        button.clipsToBounds = true
+
+        // Add padding around the button text
+        button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
+
         return button
     }()
+
+//    lazy var resetButton: UIButton = {
+//        let button = self.titleButton("RESET", highlight: true)
+//        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+//        button.isHidden = true
+//        button.centerX = self.width / 2
+//        button.autoresizingMask = [.flexibleBottomMargin, .flexibleRightMargin]
+//        return button
+//    }()
 
     lazy var doneButton: UIButton = {
         let button = self.titleButton("Done", highlight: true)
@@ -46,7 +66,7 @@ class Toolbar: UIView {
 
         addSubview(blurBackgroundView)
         addSubview(cancelButton)
-        addSubview(resetButton)
+        addSubview(upScale)
         addSubview(doneButton)
     }
 

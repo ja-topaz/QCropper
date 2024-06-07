@@ -33,11 +33,13 @@ open class CropperViewController: UIViewController, Rotatable, StateRestorable, 
     public let originalImage: UIImage
     var initialState: CropperState?
     var isCircular: Bool
+    let upScaleAction: ()->Void
 
-    public init(originalImage: UIImage, initialState: CropperState? = nil, isCircular: Bool = false) {
+    public init(originalImage: UIImage, initialState: CropperState? = nil, isCircular: Bool = false, upScaleAction: @escaping ()->Void) {
         self.originalImage = originalImage
         self.initialState = initialState
         self.isCircular = isCircular
+        self.upScaleAction = upScaleAction
         super.init(nibName: nil, bundle: nil)
         modalPresentationStyle = .fullScreen
     }
@@ -159,7 +161,8 @@ open class CropperViewController: UIViewController, Rotatable, StateRestorable, 
         let toolbar = Toolbar(frame: CGRect(x: 0, y: 0, width: self.view.width, height: view.safeAreaInsets.bottom + barHeight))
         toolbar.doneButton.addTarget(self, action: #selector(confirmButtonPressed(_:)), for: .touchUpInside)
         toolbar.cancelButton.addTarget(self, action: #selector(cancelButtonPressed(_:)), for: .touchUpInside)
-        toolbar.resetButton.addTarget(self, action: #selector(resetButtonPressed(_:)), for: .touchUpInside)
+        //toolbar.resetButton.addTarget(self, action: #selector(resetButtonPressed(_:)), for: .touchUpInside)
+        toolbar.upScale.addTarget(self, action: #selector(upScaleButtonPressed(_:)), for: .touchUpInside)
 
         return toolbar
     }()
@@ -232,7 +235,7 @@ open class CropperViewController: UIViewController, Rotatable, StateRestorable, 
             return
         }
 
-        view.backgroundColor = .clear
+        view.backgroundColor = UIColor(white: 0.06, alpha: 1)
 
         scrollView.addSubview(imageView)
 
@@ -345,25 +348,31 @@ open class CropperViewController: UIViewController, Rotatable, StateRestorable, 
         delegate?.cropperDidConfirm(self, state: saveState())
     }
 
+//    @objc
+//    func resetButtonPressed(_: UIButton) {
+//        overlay.blur = false
+//        overlay.gridLinesAlpha = 0
+//        overlay.cropBoxAlpha = 0
+//        topBar.isUserInteractionEnabled = false
+//        bottomView.isUserInteractionEnabled = false
+//
+//        UIView.animate(withDuration: 0.25, animations: {
+//            self.resetToDefaultLayout()
+//        }, completion: { _ in
+//            UIView.animate(withDuration: 0.25, animations: {
+//                self.overlay.cropBoxAlpha = 1
+//                self.overlay.blur = true
+//            }, completion: { _ in
+//                self.topBar.isUserInteractionEnabled = true
+//                self.bottomView.isUserInteractionEnabled = true
+//            })
+//        })
+//    }
+    
     @objc
-    func resetButtonPressed(_: UIButton) {
-        overlay.blur = false
-        overlay.gridLinesAlpha = 0
-        overlay.cropBoxAlpha = 0
-        topBar.isUserInteractionEnabled = false
-        bottomView.isUserInteractionEnabled = false
-
-        UIView.animate(withDuration: 0.25, animations: {
-            self.resetToDefaultLayout()
-        }, completion: { _ in
-            UIView.animate(withDuration: 0.25, animations: {
-                self.overlay.cropBoxAlpha = 1
-                self.overlay.blur = true
-            }, completion: { _ in
-                self.topBar.isUserInteractionEnabled = true
-                self.bottomView.isUserInteractionEnabled = true
-            })
-        })
+    func upScaleButtonPressed(_: UIButton) {
+        print("here")
+        upScaleAction()
     }
 
     @objc
@@ -484,7 +493,7 @@ open class CropperViewController: UIViewController, Rotatable, StateRestorable, 
 
     func updateButtons() {
         if let toolbar = self.toolbar as? Toolbar {
-            toolbar.resetButton.isHidden = isCurrentlyInDefalutState
+            //toolbar.resetButton.isHidden = isCurrentlyInDefalutState
             if initialState != nil {
                 toolbar.doneButton.isEnabled = !isCurrentlyInInitialState
             } else {

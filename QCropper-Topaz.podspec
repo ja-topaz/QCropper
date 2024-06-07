@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'QCropper-Topaz'
-  s.version          = '0.1.7'
+  s.version          = '0.2.0'
   s.summary          = 'Image cropping/rotating/straightening library for iOS in Swift.'
   s.description      = <<-DESC
 Image cropping/rotating/straightening library for iOS in Swift.
